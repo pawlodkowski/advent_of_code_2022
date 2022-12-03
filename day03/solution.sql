@@ -1,9 +1,10 @@
 DROP TABLE IF EXISTS day03;
 CREATE TABLE day03 (
-  contents   text
+  id         SERIAL,
+  contents   TEXT
 );
 
-\COPY day03 FROM 'day03/input.txt' WITH (FORMAT 'text', DELIMITER ' ');
+\COPY day03 (contents) FROM 'day03/input.txt' WITH (FORMAT 'text', DELIMITER ' ');
 
 CREATE OR REPLACE FUNCTION array_intersect(anyarray, anyarray)
   RETURNS anyarray
@@ -73,7 +74,43 @@ part1 AS (
   FROM shared_chars sc
   LEFT JOIN char_priorities cp
   ON sc.chars[1] = cp.c
+),
+_elf_group_contents AS (
+  SELECT 
+    --similar trick from day01 👌
+    SUM(CASE WHEN MOD(id - 1, 3) = 0 THEN 1 ELSE 0 END) OVER (
+        ORDER BY (id - 1)
+    ) as eg,
+    contents
+  FROM day03
+),
+elf_group_contents AS (
+  SELECT 
+    eg,
+    string_to_array(string_agg(contents, ','), ',') as contents
+  FROM _elf_group_contents
+  GROUP BY 1
+),
+shared_chars_per_group AS (
+  SELECT 
+    eg,
+    array_intersect(
+      array_intersect(string_to_array(contents[1], NULL),
+                      string_to_array(contents[2], NULL)
+                      ),
+      string_to_array(contents[3], NULL)
+    ) AS chars
+  FROM elf_group_contents
+  ORDER BY 1 ASC
+),
+part2 AS (
+  SELECT 
+    sum(prio) as total
+  FROM shared_chars_per_group sc
+  LEFT JOIN char_priorities cp
+  ON sc.chars[1] = cp.c
 )
-SELECT 1 as "Part", total AS "Solution" FROM part1;
-
-
+SELECT 1 as "Part", total AS "Solution" FROM part1
+UNION ALL
+SELECT 2 as "Part", total AS "Solution" FROM part2
+;
