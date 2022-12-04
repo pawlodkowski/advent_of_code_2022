@@ -51,7 +51,3 @@ part2 AS (
 SELECT 1 AS "Part", full_containments AS "Solution" FROM part1
 UNION ALL
 SELECT 2 AS "Part", _overlaps AS "Solution" FROM part2;
-
-
-
-
