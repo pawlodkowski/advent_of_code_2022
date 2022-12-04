@@ -1,5 +1,7 @@
 # Advent of Code 2022 using PostGreSQL
 
+Context: https://adventofcode.com/2022/about
+
 Cleaner documentation WIP. 
 
 Most likely not going to have much time to commit to the competition this year, but I figured it'd be a nice way to sharpen my PostGreSQL skills. 
