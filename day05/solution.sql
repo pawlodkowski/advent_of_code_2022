@@ -80,13 +80,13 @@ moves AS (
   FROM move_vals
 ), 
 initial_stacks AS (
-	--the initial configuration of the stacks
-	--as the starting point of the recursion
+  --the initial configuration of the stacks
+  --as the starting point of the recursion
   SELECT
     0 as _round,
-		--the advantage of aggregating the stacks into a single array / row is that I can access
-		--different stacks within the same move, so that I can easily move contents from the 
-		--origin stack to the destination stack (since everything is in the same row / "relation")
+    --the advantage of aggregating the stacks into a single array / row is that I can access
+    --different stacks within the same move, so that I can easily move contents from the 
+    --origin stack to the destination stack (since everything is in the same row / "relation")
     array_agg(stack_contents ORDER BY stack_num) AS stacks_arr
   FROM stack_data
 ),
