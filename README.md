@@ -2,9 +2,10 @@
 
 Context: https://adventofcode.com/2022/about
 
-Cleaner documentation WIP. 
-
 Most likely not going to have much time to commit to the competition this year, but I figured it'd be a nice way to sharpen my PostGreSQL skills. 
+
+Update: Got too busy with other things and fell behind in the daily competition. The current state of the repo is my limit for this year, and hopefully I'll
+get farther next year (probably with PostGres again!).
 
 ### Usage
 
